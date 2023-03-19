@@ -15,7 +15,6 @@ const SearchPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [page, setPage] = useState(1);
   const [recordsPerPage] = useState(10);
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
@@ -70,22 +69,13 @@ const SearchPage = () => {
     setResultsPerPage(Number(event.target.value));
   };
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
 
   const handleSearch = (event) => {
     event.preventDefault();
     setCurrentPage(1);
   };
 
-  const handleNextPage = () => {
-    setPage(page + 1);
-  };
 
-  const handlePrevPage = () => {
-    setPage(page - 1);
-  };
   return (
     <div>
       <Container>
