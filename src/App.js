@@ -11,7 +11,7 @@ function App() {
     <Router>
       <Routes>
         <Route exact path="/" element={<SearchPage/>} />
-        <Route path="/detail/:owner/:repo" element={<DetailPage/>} />
+        <Route path="/detail/:id" element={<DetailPage/>} />
       </Routes>
     </Router>
     </>

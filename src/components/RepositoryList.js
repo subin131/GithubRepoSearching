@@ -1,10 +1,10 @@
 import React from 'react';
 import RepositoryListItem from './RepositoryListItem';
 
-const RepositoryList = ({ repositories }) => {
+const RepositoryList = ({ data }) => {
   return (
     <ul>
-      {repositories.map((repo) => (
+      {data.map((repo) => (
         <RepositoryListItem key={repo.id} repo={repo} />
       ))}
     </ul>

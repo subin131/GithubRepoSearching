@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 const DetailPage = () => {
-  const { owner, repo } = useParams();
+  const { id } = useParams();
   const [repoDetails, setRepoDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,7 +11,7 @@ const DetailPage = () => {
     const fetchRepoDetails = async () => {
       try {
         const response = await fetch(
-          `https://api.github.com/repos/${owner}/${repo}`
+          `https://api.github.com/repos/${id}`
         );
         const data = await response.json();
         setRepoDetails(data);
@@ -22,7 +22,7 @@ const DetailPage = () => {
       }
     };
     fetchRepoDetails();
-  }, [owner, repo]);
+  }, [id]);
 
   return (
     <div>

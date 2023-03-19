@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+
 const SearchForm = ({ onSubmit }) => {
-  console.log("SearchForm: ", onSubmit);
+  // console.log("SearchForm: ", {onSubmit});
   const [searchQuery, setSearchQuery] = useState("");
   const [sortCriteria, setSortCriteria] = useState("stars");
   const [resultsPerPage, setResultsPerPage] = useState(10);
@@ -10,7 +11,7 @@ const SearchForm = ({ onSubmit }) => {
   const handleSearchQueryChange = (e) => {
     setSearchQuery(e.target.value);
   };
-
+    
   const handleSortCriteriaChange = (e) => {
     setSortCriteria(e.target.value);
   };
@@ -20,8 +21,9 @@ const SearchForm = ({ onSubmit }) => {
   };
 
   const handleSearch = (e) => {
-    e.preventDefault();
-    onSubmit({ searchQuery, sortCriteria, resultsPerPage });
+    
+
+    
   };
 
   return (

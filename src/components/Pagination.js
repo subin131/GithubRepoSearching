@@ -1,99 +1,51 @@
-import React, { useState, useEffect } from 'react';
-import SearchForm from '../components/SearchForm';
-import RepositoryList from '../components/RepositoryList';
-import Pagination from '../components/Pagination';
+import React from 'react'
 
-const SearchPage = () => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [sortCriteria, setSortCriteria] = useState('stars');
-  const [resultsPerPage, setResultsPerPage] = useState(10);
-  const [totalResults, setTotalResults] = useState(0);
-  const [repositories, setRepositories] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+const Pagination = ({ nPages, currentPage, setCurrentPage }) => {
 
-  useEffect(() => {
-    setLoading(true);
-    setError('');
+    const pageNumbers = [...Array(nPages + 1).keys()].slice(1)
 
-    const searchRepositories = async () => {
-      try {
-        const response = await fetch(
-          `https://api.github.com/search/repositories?q=${searchQuery}&sort=${sortCriteria}&per_page=${resultsPerPage}&page=${currentPage}`
-        );
-        const data = await response.json();
-        if (response.ok) {
-          setRepositories(data.items);
-          setTotalResults(data.total_count);
-        } else {
-          setError(data.message);
-        }
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+    
 
-    if (searchQuery !== '') {
-      searchRepositories();
+    const nextPage = () => {
+            if(currentPage !== nPages) setCurrentPage(currentPage + 1)
     }
+    const prevPage = () => {
+        if(currentPage !== 1) setCurrentPage(currentPage - 1)
+    }
+    return (
+        <nav>
+            <ul className='pagination justify-content-center'>
+                <li className="page-item">
+                    <a className="page-link" 
+                        onClick={prevPage} 
+                        href='#'>
+                        
+                        Previous
+                    </a>
+                </li>
+                {pageNumbers.map(pgNumber => (
+                    <li key={pgNumber} 
+                        className= {`page-item ${currentPage == pgNumber ? 'active' : ''} `} >
 
-    return () => {
-      setRepositories([]);
-      setCurrentPage(1);
-    };
-  }, [searchQuery, sortCriteria, resultsPerPage, currentPage]);
+                        <a onClick={() => setCurrentPage(pgNumber)}  
+                            className='page-link' 
+                            href='#'>
+                            
+                            {pgNumber}
+                        </a>
+                    </li>
+                ))}
+                <li className="page-item">
+                    <a className="page-link" 
+                        onClick={nextPage}
+                        href='#'>
+                        
+                        Next
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    )
+}
 
-  const handleSearchQueryChange = (event) => {
-    setSearchQuery(event.target.value);
-  };
-
-  const handleSortCriteriaChange = (event) => {
-    setSortCriteria(event.target.value);
-  };
-
-  const handleResultsPerPageChange = (event) => {
-    setResultsPerPage(Number(event.target.value));
-  };
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const handleSearch = (event) => {
-    event.preventDefault();
-    setCurrentPage(1);
-  };
-
-  return (
-    <div>
-      <h1>Search for repositories on GitHub</h1>
-      <SearchForm
-        searchQuery={searchQuery}
-        sortCriteria={sortCriteria}
-        resultsPerPage={resultsPerPage}
-        handleSearchQueryChange={handleSearchQueryChange}
-        handleSortCriteriaChange={handleSortCriteriaChange}
-        handleResultsPerPageChange={handleResultsPerPageChange}
-        handleSearch={handleSearch}
-      />
-      {loading && <p>Loading...</p>}
-      {error && <p>{error}</p>}
-      {repositories.length > 0 && (
-        <div>
-          <RepositoryList repositories={repositories} />
-          <Pagination
-            currentPage={currentPage}
-            resultsPerPage={resultsPerPage}
-            totalResults={totalResults}
-            handlePageChange={handlePageChange}
-          />
-        </div>
-      )}
-    </div>
-  );
-};
-
-export default SearchPage;
+export default Pagination
